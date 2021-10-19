@@ -35,6 +35,7 @@ git: fclean
 	@git add .
 	@git commit -m "$@"
 	@git push
+	@git status
 
 .SILENT: all clean fclean re
 .PHONY: all clean fclean re
