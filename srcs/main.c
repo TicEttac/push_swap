@@ -37,19 +37,10 @@ t_list	*build_list(int ac, char **av)
 	t_list	*ret;
 	t_list	*tmp;
 	t_list	*tmp2;
-	int	i, j;
+	int	i;
 
 	i = 1;
-	while (i < ac)
-	{
-		j = 0;
-		while (av[i][j] && av[i][j] <= '9' && av[i][j] >= '0')
-			j++;
-		if (av[i][j])
-			return (NULL);
-		i++;
-	}
-	i = 1;
+	tmp2 = NULL;
 	while (i < ac)
 	{
 		tmp = build_link(atoi(av[i]));
@@ -88,58 +79,71 @@ t_list	*TMP_build_reverse(int ac, char **av)
 	t_list	*ret;
 	t_list	*tmp;
 	t_list	*tmp2;
-	int	i, j;
+	int	i;
 
-	i = 0;
-	while (i < ac)
-	{
-		j = 0;
-		while (av[i][j] && av[i][j] <= '9' && av[i][j] >= '0')
-			j++;
-		if (av[i][j])
-			return (NULL);
-		i++;
-	}
+	
 	i = ac - 1;
+	tmp2 = NULL;
 	while (i > 0)
 	{
+		printf("[%s]\n", av[i]);
 		tmp = build_link(atoi(av[i]));
 		if (!tmp)
 			return (free_list(ret));
-		if (i == 1)
-			ret = tmp;
 		if (tmp2)
 		{
 			tmp2->next = tmp;
 			tmp2 = tmp2->next;
 		}
 		else
+		{
+			ret = tmp;
 			tmp2 = tmp;
-		i++;
+		}
+		i--;
 	}
 	return (ret);
 
+}
+int	check_av(int ac, char **av)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	if (ac < 1)
+		return (0);
+	while (i < ac)
+	{
+		j = 0;
+		while (av[i][j] && av[i][j] <= '9' && av[i][j] >= '0')
+			j++;
+		if (av[i][j])
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 int main(int ac, char **av)
 {
 	t_list	*a;
 	t_list	*b;
-	t_bundle	*tmp;
 
+	if (!check_av(ac, av))
+		return (0);
 	a = build_list(ac, av);
 	b = TMP_build_reverse(ac, av);
 	if (a == NULL)
 		return (0);
-	printf("list B");
+	printf("\nlist B");
 	print_list(b);
-	printf("list A");
+	printf("\nlist A");
 	print_list(a);
-	tmp = (t_bundle){a, b};
-	tmp = ss(a, b);
-	printf("list B");
+	ss(a, b);
+	printf("\nlist B");
 	print_list(b);
-	printf("list A");
+	printf("\nlist A");
 	print_list(a);
 	//free_list(a);
 	//free_list(b);

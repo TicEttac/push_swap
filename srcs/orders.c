@@ -1,25 +1,33 @@
 #include "push_swap.h"
 
-t_list		*s(t_list *list)
+void	s(t_list *list)
 {
-	t_list	*tmp;
+	int	tmp;
 
 	if (list->next)
 	{
-		tmp = list->next;
-		list->next = tmp->next;
-		tmp->next = list;
-		list = tmp;
+		tmp = list->next->content;
+		list->next->content = list->content;
+		list->content = tmp;
 	}
-	return (list);
 }
 
-t_bundle	*ss(t_list *a, t_list *b)
+void	ss(t_list *a, t_list *b)
 {
-	t_bundle *ret;
+	s(a);
+	s(b);
+}
 
-	a = s(a);
-	b = s(b);
-	ret = (t_bundle){a, b};
-	return (ret);
+void	p(t_list *list1, t_list *list2)
+{
+	t_list	*tmp;
+	
+	tmp = list2->next;
+	list2->next = list1;
+	list1 = list2;
+	list2 = tmp;
+	printf("\nLIST A");
+	print_list(a);
+	printf("\nLIST B");
+	print_list(b);
 }

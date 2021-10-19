@@ -22,9 +22,9 @@ typedef struct	s_bundle
 **------------------------ < ORDERS > --------------------
 */
 
-t_list		*s(t_list *list);
-t_bundle	*ss(t_list *a, t_list *b);
-
+void	s(t_list *list);
+void	ss(t_list *a, t_list *b);
+void	p(t_list *list1, t_list *list2);
 /*
 **------------------------ < TOOLS > ---------------------
 */

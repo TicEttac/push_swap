@@ -8,7 +8,7 @@ OBJS = $(addprefix srcs/, $(SRCS))
 
 LIB =	lib/libft.a	\
 
-CFLAGS = -Wall -Werror -Wextra -I inc -o
+CFLAGS = -g3 -fsanitize=address -Wall -Werror -Wextra -I inc -o
 
 CC = gcc
 
