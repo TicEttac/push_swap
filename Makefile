@@ -2,7 +2,9 @@
 NAME = push_swap
 
 SRCS =		main.c			\
-		orders.c		\
+		a_orders.c		\
+		b_orders.c		\
+		both_orders.c		\
 
 OBJS = $(addprefix srcs/, $(SRCS))
 

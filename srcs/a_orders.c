@@ -1,0 +1,50 @@
+#include "push_swap.h"
+
+void	sa(t_list **a)
+{
+	t_list	*tmp;
+
+	if ((*a)->next)
+	{
+		tmp = (*a)->next;
+		(*a)->next = (*a)->next->next;
+		tmp->next = *a;
+		*a = tmp;
+	}
+}
+
+void	pa(t_list **a, t_list **b)
+{
+	t_list	*tmp;
+	
+	tmp = (*b)->next;
+	(*b)->next = (*a);
+	(*a) = (*b);
+	(*b) = tmp;
+}
+
+void	ra(t_list **a)
+{
+	t_list	*tmp;
+
+	tmp = *a;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = *a;
+	(*a) = (*a)->next;
+	tmp->next->next = NULL;
+}
+
+void	rra(t_list **a)
+{
+	t_list	*tmp;
+	t_list	*tmp2;
+
+	tmp = *a;
+	while (tmp->next && tmp->next->next)
+		tmp = tmp->next;
+	tmp->next->next = *a;
+	tmp2 = tmp->next;
+	tmp->next = NULL;
+	*a = tmp2;
+}

@@ -18,7 +18,6 @@ void	*free_list(t_list *list) //TODO
 
 	while (list)
 	{
-		printf("first link : %d\n", list->content);
 		ret = list;
 		while (ret->next)
 		{
@@ -57,6 +56,7 @@ t_list	*build_list(int ac, char **av)
 			tmp2 = tmp;
 		i++;
 	}
+	tmp2 = NULL;
 	return (ret);
 }
 
@@ -140,11 +140,12 @@ int main(int ac, char **av)
 	print_list(b);
 	printf("\nlist A");
 	print_list(a);
-	ss(a, b);
+	pb(&a, &b);
 	printf("\nlist B");
 	print_list(b);
 	printf("\nlist A");
 	print_list(a);
+
 	//free_list(a);
 	//free_list(b);
 	return (0);
