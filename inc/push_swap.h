@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "libft.h"
 
 typedef struct	s_list
 {
@@ -11,12 +12,11 @@ typedef struct	s_list
 	struct s_list	*next;
 }		t_list;
 
-typedef struct	s_bundle
+typedef struct	s_parse
 {
-	t_list	*a;
-	t_list	*b;
-
-}		t_bundle;
+	char		*content;
+	struct s_parse	*next;
+}		t_parse;
 
 /*
 **------------------------ < ORDERS > --------------------
@@ -42,5 +42,9 @@ void	rrr(t_list **a, t_list **b);
 
 t_list		*build_list(int ac, char **av);
 void		print_list(t_list *list);
+void		*print_error();
+
+
+t_list		*parser(int ac, char **av);
 
 #endif

@@ -105,38 +105,26 @@ t_list	*TMP_build_reverse(int ac, char **av)
 	return (ret);
 
 }
-int	check_av(int ac, char **av)
-{
-	int	i;
-	int	j;
 
-	i = 1;
-	if (ac < 1)
-		return (0);
-	while (i < ac)
-	{
-		j = 0;
-		while (av[i][j] && av[i][j] <= '9' && av[i][j] >= '0')
-			j++;
-		if (av[i][j])
-			return (0);
-		i++;
-	}
-	return (1);
+void	*print_error()
+{
+	ft_putstr("Error\n");
+	return (NULL);
 }
 
 int main(int ac, char **av)
 {
 	t_list	*a;
-	t_list	*b;
+//	t_list	*b;
 
-	if (!check_av(ac, av))
+	a = parser(ac, av);
+	if (!a)
 		return (0);
 	a = build_list(ac, av);
-	b = TMP_build_reverse(ac, av);
+//	b = TMP_build_reverse(ac, av);
 	if (a == NULL)
 		return (0);
-	printf("\nlist B");
+/*	printf("\nlist B");
 	print_list(b);
 	printf("\nlist A");
 	print_list(a);
@@ -145,7 +133,7 @@ int main(int ac, char **av)
 	print_list(b);
 	printf("\nlist A");
 	print_list(a);
-
+*/
 	//free_list(a);
 	//free_list(b);
 	return (0);

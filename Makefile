@@ -5,6 +5,7 @@ SRCS =		main.c			\
 		a_orders.c		\
 		b_orders.c		\
 		both_orders.c		\
+		parsing.c		\
 
 OBJS = $(addprefix srcs/, $(SRCS))
 
@@ -19,12 +20,14 @@ all:	$(NAME)
 $(NAME): $(OBJS)
 	@make -C ./libft all
 	@mkdir -p lib
+	@cp libft/libft.h inc/libft.h
 	@mv libft/libft.a lib/
 	@${CC} ${CFLAGS} ${NAME} ${OBJS} ${LIB}
 	@echo "compiling $@"
 
 clean:
 	@rm -rf lib/
+	@rm -rf inc/libft.h
 	@make -C libft clean
 
 fclean: clean
