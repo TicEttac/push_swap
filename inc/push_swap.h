@@ -40,7 +40,8 @@ void	rrr(t_list **a, t_list **b);
 **------------------------ < TOOLS > ---------------------
 */
 
-t_list		*build_list(int ac, char **av);
+t_list		*build_list(t_parse *list);
+t_list		*build_link(int content);
 void		print_list(t_list *list);
 void		*print_error();
 

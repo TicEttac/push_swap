@@ -1,18 +1,21 @@
 #include "push_swap.h"
 
-void	*free_parse_error(t_parse **list)
+static void	free_list(t_parse **list)
 {
 	t_parse	*tmp;
-	
+
 	while (*list)
 	{
 		tmp = *list;
-		while (tmp->next)
-			tmp = tmp->next;
+		*list = (*list)->next;
 		free(tmp->content);
 		free(tmp);
-		tmp = NULL;
 	}
+}
+
+void	*free_parse_error(t_parse **list)
+{
+	free_list(list);
 	return (print_error());
 }
 
@@ -25,12 +28,16 @@ int	check_string(char *s)
 	ret = 1;
 	if (!s || !*s)
 		return (0);
+	if (s[0] == '-')
+		i++;
 	while (s[i])
 	{
-		if (s[i] <= '9' && s[i] >= '0')
+		if ((s[i] <= '9' && s[i] >= '0') || s[i] == ' ')
+		{
 			i++;
-		else if (s[i] == ' ')
-			ret = 2;
+			if (s[i] == ' ')
+				ret = 2;
+		}
 		else
 			return (0);
 	}
@@ -71,6 +78,20 @@ int	add_create_link(char *s, t_parse **list)
 	return (1);
 }
 
+void	free_splited(char **list)
+{
+	int	i;
+
+	i = 0;
+	while (list[i])
+		i++;
+	while (i > 0)
+	{
+		i--;
+		free(list[i]);
+	}
+}
+
 int	add_create_links(char *s, t_parse **list)
 {
 	int	i;
@@ -95,7 +116,9 @@ int	add_create_links(char *s, t_parse **list)
 		if (!tmp->next)
 			return (0);
 		tmp = tmp->next;
+		i++;
 	}
+	free_splited(split);
 	return (1);
 }
 
@@ -106,6 +129,7 @@ t_parse	*build_parse(int ac, char **av)
 	t_parse	*ret;
 
 	i = 1;
+	ret = NULL;
 	while (i < ac)
 	{
 		check_ret = check_string(av[i]);
@@ -130,12 +154,12 @@ int	check_double(t_parse *list)
 	t_parse	*tmp2;
 
 	tmp = list;
-	while (tmp->next->next)
+	while (tmp->next)
 	{
 		tmp2 = tmp->next;
-		while (tmp2->next)
+		while (tmp2)
 		{
-			if (ft_strcmp(tmp->content, tmp2->content))
+			if (!ft_strcmp(tmp->content, tmp2->content))
 				return (0);
 			tmp2 = tmp2->next;
 		}
@@ -144,20 +168,56 @@ int	check_double(t_parse *list)
 	return (1);
 }
 
-//2147483647
-//-2147483648
-
 int	check_int(t_parse *list)
 {
 	t_parse	*tmp;
 
 	tmp = list;
-	while (tmp->next)
+	while (tmp)
 	{
-		if (ft_strlen(tmp->content) >= 10)
-			
+		if (tmp->content[0] == '-')
+		{
+			if (ft_strlen(tmp->content) >= 11)
+				if (ft_strcmp(tmp->content, "-2147483648") > 0)
+					return (0);
+		}
+		else if (ft_strlen(tmp->content) >= 10)
+			if (ft_strcmp(tmp->content, "2147483647") > 0)
+				return (0);
+		tmp = tmp->next;
 	}
+	return (1);
 }
+
+t_list	*build_list(t_parse *list)
+{
+	t_list	*ret;
+	t_list	*tmp_list;
+	t_parse	*tmp_parse;
+
+	tmp_parse = list;
+	while (tmp_parse)
+	{
+		if (tmp_parse == list)
+		{
+			ret = build_link(ft_atoi(tmp_parse->content));
+			if (!ret)
+				return (NULL);
+			tmp_list = ret;
+			tmp_parse = tmp_parse->next;
+		}
+		else
+		{
+			tmp_list->next = build_link(ft_atoi(tmp_parse->content));
+			if (!tmp_list->next)
+				return (NULL);
+			tmp_list = tmp_list->next;
+			tmp_parse = tmp_parse->next;
+		}
+	}
+	return (ret);
+}
+
 
 t_list	*parser(int ac, char **av)
 {
@@ -172,5 +232,7 @@ t_list	*parser(int ac, char **av)
 		return (0);
 	if (!check_double(list) || !check_int(list))
 		return (free_parse_error(&list));
+	a = build_list(list);
+	free_list(&list);
 	return (a);
 }
