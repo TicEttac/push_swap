@@ -124,12 +124,12 @@ t_parse	*build_parse(int ac, char **av)
 	return (ret);
 }
 
-int	check_double(t_parse **list)
+int	check_double(t_parse *list)
 {
 	t_parse	*tmp;
 	t_parse	*tmp2;
 
-	tmp = *list;
+	tmp = list;
 	while (tmp->next->next)
 	{
 		tmp2 = tmp->next;
@@ -144,6 +144,21 @@ int	check_double(t_parse **list)
 	return (1);
 }
 
+//2147483647
+//-2147483648
+
+int	check_int(t_parse *list)
+{
+	t_parse	*tmp;
+
+	tmp = list;
+	while (tmp->next)
+	{
+		if (ft_strlen(tmp->content) >= 10)
+			
+	}
+}
+
 t_list	*parser(int ac, char **av)
 {
 	t_parse	*list;
@@ -155,7 +170,7 @@ t_list	*parser(int ac, char **av)
 	list = build_parse(ac, av);
 	if (!list)
 		return (0);
-	if (!check_double(&list))
+	if (!check_double(list) || !check_int(list))
 		return (free_parse_error(&list));
 	return (a);
 }
