@@ -6,6 +6,8 @@ SRCS =		main.c			\
 		b_orders.c		\
 		both_orders.c		\
 		parsing.c		\
+		parsing_check.c		\
+		parsing_tools.c		\
 
 OBJS = $(addprefix srcs/, $(SRCS))
 

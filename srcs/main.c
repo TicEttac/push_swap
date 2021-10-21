@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nisauvig <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/21 23:34:12 by nisauvig          #+#    #+#             */
+/*   Updated: 2021/10/21 23:36:10 by nisauvig         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 t_list	*build_link(int content)
@@ -38,28 +50,23 @@ void	print_list(t_list *list)
 	printf("%d\n", tmp->content);
 }
 
-void	*print_error()
+void	*print_error(void)
 {
 	ft_putstr("Error\n");
 	return (NULL);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_list	*a;
-//	t_list	*b;
 
 	a = parser(ac, av);
 	if (!a)
 		return (0);
-//	a = build_list(ac, av);
-//	b = TMP_build_reverse(ac, av);
 	if (a == NULL)
 		return (0);
 	printf("\nlist A");
 	print_list(a);
-
 	free_list(a);
-	//free_list(b);
 	return (0);
 }

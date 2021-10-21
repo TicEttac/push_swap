@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nisauvig <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/21 23:33:25 by nisauvig          #+#    #+#             */
+/*   Updated: 2021/10/21 23:54:34 by nisauvig         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-static void	free_list(t_parse **list)
+void	free_parser_list(t_parse **list)
 {
 	t_parse	*tmp;
 
@@ -11,115 +23,6 @@ static void	free_list(t_parse **list)
 		free(tmp->content);
 		free(tmp);
 	}
-}
-
-void	*free_parse_error(t_parse **list)
-{
-	free_list(list);
-	return (print_error());
-}
-
-int	check_string(char *s)
-{
-	int	i;
-	int	ret;
-
-	i = 0;
-	ret = 1;
-	if (!s || !*s)
-		return (0);
-	if (s[0] == '-')
-		i++;
-	while (s[i])
-	{
-		if ((s[i] <= '9' && s[i] >= '0') || s[i] == ' ')
-		{
-			i++;
-			if (s[i] == ' ')
-				ret = 2;
-		}
-		else
-			return (0);
-	}
-	return (ret);
-}
-
-t_parse	*new_link(char *s)
-{
-	t_parse	*ret;
-
-	ret = malloc(sizeof(t_parse));
-	if (!ret)
-		return (NULL);
-	ret->content = ft_strdup(s);
-	ret->next = NULL;
-	return (ret);
-}
-
-int	add_create_link(char *s, t_parse **list)
-{
-	t_parse	*tmp;
-
-	if (!*list)
-	{
-		*list = new_link(s);
-		if (!list)
-			return (0);
-	}
-	else
-	{
-		tmp = *list;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new_link(s);
-		if (!tmp->next)
-			return (0);
-	}
-	return (1);
-}
-
-void	free_splited(char **list)
-{
-	int	i;
-
-	i = 0;
-	while (list[i])
-		i++;
-	while (i > 0)
-	{
-		i--;
-		free(list[i]);
-	}
-}
-
-int	add_create_links(char *s, t_parse **list)
-{
-	int	i;
-	char	**split;
-	t_parse	*tmp;
-
-	i = 0;
-	split = ft_split(s, ' ');
-	if (!*list)
-	{
-		*list = new_link(split[i]);
-		if (!*list)
-			return (0);
-		i++;
-	}
-	tmp = *list;
-	while (tmp->next)
-		tmp = tmp->next;
-	while (split[i])
-	{
-		tmp->next = new_link(split[i]);
-		if (!tmp->next)
-			return (0);
-		tmp = tmp->next;
-		i++;
-	}
-	free_splited(split);
-	return (1);
 }
 
 t_parse	*build_parse(int ac, char **av)
@@ -146,47 +49,6 @@ t_parse	*build_parse(int ac, char **av)
 		i++;
 	}
 	return (ret);
-}
-
-int	check_double(t_parse *list)
-{
-	t_parse	*tmp;
-	t_parse	*tmp2;
-
-	tmp = list;
-	while (tmp->next)
-	{
-		tmp2 = tmp->next;
-		while (tmp2)
-		{
-			if (!ft_strcmp(tmp->content, tmp2->content))
-				return (0);
-			tmp2 = tmp2->next;
-		}
-		tmp = tmp->next;
-	}
-	return (1);
-}
-
-int	check_int(t_parse *list)
-{
-	t_parse	*tmp;
-
-	tmp = list;
-	while (tmp)
-	{
-		if (tmp->content[0] == '-')
-		{
-			if (ft_strlen(tmp->content) >= 11)
-				if (ft_strcmp(tmp->content, "-2147483648") > 0)
-					return (0);
-		}
-		else if (ft_strlen(tmp->content) >= 10)
-			if (ft_strcmp(tmp->content, "2147483647") > 0)
-				return (0);
-		tmp = tmp->next;
-	}
-	return (1);
 }
 
 t_list	*build_list(t_parse *list)
@@ -218,7 +80,6 @@ t_list	*build_list(t_parse *list)
 	return (ret);
 }
 
-
 t_list	*parser(int ac, char **av)
 {
 	t_parse	*list;
@@ -233,6 +94,6 @@ t_list	*parser(int ac, char **av)
 	if (!check_double(list) || !check_int(list))
 		return (free_parse_error(&list));
 	a = build_list(list);
-	free_list(&list);
+	free_parser_list(&list);
 	return (a);
 }

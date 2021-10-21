@@ -45,7 +45,19 @@ t_list		*build_link(int content);
 void		print_list(t_list *list);
 void		*print_error();
 
+/*
+**------------------------ < TOOLS > ---------------------
+*/
 
 t_list		*parser(int ac, char **av);
+t_parse		*new_link(char *s);
+int		add_create_link(char *s, t_parse **list);
+int		add_create_links(char *s, t_parse **list);
+int		check_double(t_parse *list);
+int		check_int(t_parse *list);
+int		check_string(char *s);
+void		*free_parse_error(t_parse **list);
+void		free_splited(char **list);
+void		free_parser_list(t_parse **list);
 
 #endif
