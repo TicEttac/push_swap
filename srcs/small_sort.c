@@ -6,7 +6,7 @@
 /*   By: nisauvig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 02:23:36 by nisauvig          #+#    #+#             */
-/*   Updated: 2021/10/22 07:30:38 by nisauvig         ###   ########.fr       */
+/*   Updated: 2021/10/22 17:29:23 by nisauvig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	add_inst(t_inst **inst, int order)
 
 	if (!*inst)
 	{
+		printf("0\n");
 		*inst = malloc(sizeof(t_inst));
 		if (!inst)
 			return (0);
@@ -25,6 +26,7 @@ int	add_inst(t_inst **inst, int order)
 		(*inst)->next = NULL;
 		return (1);
 	}
+	printf("+1\n");
 	tmp = *inst;
 	while (tmp->next)
 		tmp = tmp->next;
@@ -78,12 +80,47 @@ int	check_list(t_list **a)
 	return (1);
 }
 
+void	revert_list(t_list **a, int order)
+{
+	if (order == SA)
+		sa(a);
+	if (order == RA)
+		rra(a);
+	if (order == RRA)
+		ra(a);
+}
+
+int	revert_step(t_inst **inst, t_list **a)
+{
+	t_inst	*tmp;
+	t_inst	*tmp2;
+
+	tmp = *inst;
+	printf("-1\n");
+	if (tmp->next)
+	{
+		while (tmp->next)
+		{
+			tmp2 = tmp;
+			tmp = tmp->next;
+		}
+		revert_list(a, tmp->content);
+		free(tmp);
+		tmp2->next = NULL;
+		return (0);
+	}
+	revert_list(a, tmp->content);
+	free(tmp);
+	tmp = NULL;
+	return (0);
+}
+
 int	bt_small(t_list **a, t_inst **inst, int depth, int order)
 {
 	if (check_list(a))
 		return (1);
 	if (depth == MAX_DEPTH)
-		return (0);
+		return (revert_step(inst, a));
 	if (order == SA)
 		if (apply(a, inst, SA, 1) && (bt_small(a, inst, depth + 1, RA)
 				|| bt_small(a, inst, depth + 1, RRA)))
@@ -96,7 +133,7 @@ int	bt_small(t_list **a, t_inst **inst, int depth, int order)
 		if (apply(a, inst, RRA, 1) && (bt_small(a, inst, depth + 1, SA)
 				|| bt_small(a, inst, depth + 1, RRA)))
 			return (1);
-	return (0);
+	return (revert_step(inst, a));
 }
 
 t_inst	*launch_small(t_list **a)
@@ -143,6 +180,7 @@ int	small_sort(t_list **a)
 	if (!inst)
 		return (0);
 	apply_inst(a, inst);
+	print_list(cp_a, 'C');
 	free_list(cp_a);
 	free_list((t_list *)inst);
 	return (1);
