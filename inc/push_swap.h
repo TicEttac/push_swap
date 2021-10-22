@@ -6,6 +6,11 @@
 #include <stdlib.h>
 #include "libft.h"
 
+#define MAX_DEPTH 14
+#define SA 1
+#define RA 2
+#define RRA 3
+
 typedef struct	s_list
 {
 	int		content;
@@ -17,6 +22,14 @@ typedef struct	s_parse
 	char		*content;
 	struct s_parse	*next;
 }		t_parse;
+
+typedef t_list	t_inst;
+
+/*
+**----------------------- < SORTING > --------------------
+*/
+
+int		small_sort(t_list **list);
 
 /*
 **------------------------ < ORDERS > --------------------
@@ -42,11 +55,12 @@ void	rrr(t_list **a, t_list **b);
 
 t_list		*build_list(t_parse *list);
 t_list		*build_link(int content);
-void		print_list(t_list *list);
+void		print_list(t_list *list, char name);
 void		*print_error();
+void		free_list(t_list *list);
 
 /*
-**------------------------ < TOOLS > ---------------------
+**----------------------- < PARSING > --------------------
 */
 
 t_list		*parser(int ac, char **av);

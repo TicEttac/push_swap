@@ -8,6 +8,7 @@ SRCS =		main.c			\
 		parsing.c		\
 		parsing_check.c		\
 		parsing_tools.c		\
+		small_sort.c		\
 
 OBJS = $(addprefix srcs/, $(SRCS))
 

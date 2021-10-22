@@ -6,7 +6,7 @@
 /*   By: nisauvig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 23:34:12 by nisauvig          #+#    #+#             */
-/*   Updated: 2021/10/21 23:36:10 by nisauvig         ###   ########.fr       */
+/*   Updated: 2021/10/22 07:30:27 by nisauvig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ void	free_list(t_list *list)
 	}
 }
 
-void	print_list(t_list *list)
+void	print_list(t_list *list, char name)
 {
 	t_list	*tmp;
 
 	tmp = list;
-	printf("\n");
+	printf("\nLIST %c\n", name);
 	while (tmp->next)
 	{
 		printf("%d\n", tmp->content);
@@ -63,10 +63,10 @@ int	main(int ac, char **av)
 	a = parser(ac, av);
 	if (!a)
 		return (0);
-	if (a == NULL)
-		return (0);
-	printf("\nlist A");
-	print_list(a);
+	//print_list(a, 'A');
+	small_sort(&a);
+	//sa(&a);
+	//print_list(a, 'A');
 	free_list(a);
 	return (0);
 }
