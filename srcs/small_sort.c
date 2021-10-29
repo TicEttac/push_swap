@@ -6,7 +6,7 @@
 /*   By: nisauvig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 02:23:36 by nisauvig          #+#    #+#             */
-/*   Updated: 2021/10/22 17:29:23 by nisauvig         ###   ########.fr       */
+/*   Updated: 2021/10/29 19:20:19 by nisauvig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	check_list(t_list **a)
 			return (0);
 		tmp = tmp->next;
 	}
+	print_list(*a, 'a');
 	return (1);
 }
 

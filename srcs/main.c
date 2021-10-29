@@ -6,7 +6,7 @@
 /*   By: nisauvig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 23:34:12 by nisauvig          #+#    #+#             */
-/*   Updated: 2021/10/22 13:14:31 by nisauvig         ###   ########.fr       */
+/*   Updated: 2021/10/29 19:21:01 by nisauvig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,10 @@ int	main(int ac, char **av)
 	a = parser(ac, av);
 	if (!a)
 		return (0);
-	small_sort(&a);
+	revert_small(&a);
+	//small_sort(&a);
 	//middle_sort(&a);
-	print_list(a, 'A');
+	//print_list(a, 'A');
 	free_list(a);
 	return (0);
 }
