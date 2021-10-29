@@ -11,25 +11,44 @@
 #define RA 2
 #define RRA 3
 
-typedef struct	s_list
-{
-	int		content;
-	struct s_list	*next;
-}		t_list;
-
 typedef struct	s_parse
 {
 	char		*content;
 	struct s_parse	*next;
-}		t_parse;
+}               t_parse;
+
+typedef struct	s_list
+{
+	int		content;
+	struct s_list	*next;
+}		        t_list;
 
 typedef t_list	t_inst;
+
+/*
+**----------------------- < PARSING > --------------------
+*/
+
+t_list		*parser(int ac, char **av);
+t_parse		*new_link(char *s);
+int		add_create_link(char *s, t_parse **list);
+int		add_create_links(char *s, t_parse **list);
+int		check_double(t_parse *list);
+int		check_int(t_parse *list);
+int		check_string(char *s);
+void		*free_parse_error(t_parse **list);
+void		free_splited(char **list);
+void		free_parser_list(t_parse **list);
 
 /*
 **----------------------- < SORTING > --------------------
 */
 
 int		small_sort(t_list **list);
+t_list	*copy(t_list *a);
+int		revert_step(t_inst **inst, t_list **a);
+void	revert_list(t_list **a, int order);
+
 
 /*
 **------------------------ < ORDERS > --------------------
@@ -58,20 +77,5 @@ t_list		*build_link(int content);
 void		print_list(t_list *list, char name);
 void		*print_error();
 void		free_list(t_list *list);
-
-/*
-**----------------------- < PARSING > --------------------
-*/
-
-t_list		*parser(int ac, char **av);
-t_parse		*new_link(char *s);
-int		add_create_link(char *s, t_parse **list);
-int		add_create_links(char *s, t_parse **list);
-int		check_double(t_parse *list);
-int		check_int(t_parse *list);
-int		check_string(char *s);
-void		*free_parse_error(t_parse **list);
-void		free_splited(char **list);
-void		free_parser_list(t_parse **list);
 
 #endif

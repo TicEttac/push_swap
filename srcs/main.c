@@ -63,9 +63,8 @@ int	main(int ac, char **av)
 	a = parser(ac, av);
 	if (!a)
 		return (0);
-	//print_list(a, 'A');
 	small_sort(&a);
-	//sa(&a);
+	//middle_sort(&a);
 	print_list(a, 'A');
 	free_list(a);
 	return (0);
