@@ -38,11 +38,11 @@ int	add_inst(t_inst **inst, int order)
 
 int	apply(t_list **a, t_inst **inst, int order, int opt)
 {
-	if (order == SA)
+	if (order == SA || order == SB)
 		sa(a);
-	if (order == RA)
+	if (order == RA || order == RB)
 		ra(a);
-	if (order == RRA)
+	if (order == RRA || order == RRB)
 		rra(a);
 	if (opt)
 		return (add_inst(inst, order));
@@ -51,15 +51,23 @@ int	apply(t_list **a, t_inst **inst, int order, int opt)
 
 void	apply_inst(t_list **a, t_inst *inst)
 {
+	static const t_tab	tab[] = {{"ra", SA}, {"rra", RRA}, {"sa", SA},
+		{"rb", RB},{"rrb", RRB},{"sb", SB}};
+	int			i;
+
+	(void)a;
 	while (inst)
 	{
-		if (inst->content == SA)
-			ft_putstr("sa\n");
-		if (inst->content == RA)
-			ft_putstr("ra\n");
-		if (inst->content == RRA)
-			ft_putstr("rra\n");
-		apply(a, NULL, inst->content, 0);
+		i = 0;
+		while (i < 6)
+		{
+			if (inst->content == tab[i].tag)
+			{
+				ft_putstr(tab[i].name);
+				write(1, "\n", 1);
+			}
+			i++;
+		}
 		inst = inst->next;
 	}
 }
@@ -75,7 +83,6 @@ int	check_list(t_list **a)
 			return (0);
 		tmp = tmp->next;
 	}
-	print_list(*a, 'a');
 	return (1);
 }
 

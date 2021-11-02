@@ -63,10 +63,11 @@ int	main(int ac, char **av)
 	a = parser(ac, av);
 	if (!a)
 		return (0);
-	revert_small(&a);
+	big_sort(&a);
+	//revert_small(&a);
 	//small_sort(&a);
 	//middle_sort(&a);
-	//print_list(a, 'A');
+	print_list(a, 'A');
 	free_list(a);
 	return (0);
 }
