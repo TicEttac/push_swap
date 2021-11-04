@@ -55,6 +55,7 @@ void		free_parser_list(t_parse **list);
 
 int		small_sort(t_list **list);
 void		middle_sort(t_list **a);
+void		big_sort(t_list **a);
 t_list		*copy(t_list *a);
 int		revert_step(t_inst **inst, t_list **a);
 void		revert_list(t_list **a, int order);
