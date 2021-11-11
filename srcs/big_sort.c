@@ -45,19 +45,48 @@ int	find_biggest_ascendent_sublist(t_list *max, t_list **a, t_list **start)
 	return (size);
 }
 
+void	first_push(t_list **a, t_list **b, t_list *start1, t_list *start2)
+{
+	t_list	*tmp;
+
+	tmp = *a;
+	while (tmp && tmp != start1)
+	{
+		pb(a, b);
+		ft_putstr("pb\n");
+	}
+}
+
 t_list	*push_sublists_b(t_list **a, t_list *start1, t_list *start2)
 {
 	t_list	*tmp;
 	t_list	*tmp_back;
+	t_list	*b;
 	int	ra;
 	int	rra;
 
 	tmp = *a;
+	first_push(a, &b, start1, start2);
 	while ()
 	{
-		while (tmp && tmp->next && tmp->content < tmp->next->content)
+		ra = 0;
+		while (tmp && tmp->next && tmp->content < tmp->next->content) #TODO
+		{
 			ra++;
-		while ()
+			tmp = tmp->next;
+		}
+		tmp = *a;
+		rra = 0;
+		while (tmp && tmp->next)
+		{
+			if (tmp->content < tmp->next->content)
+				rra++;
+			else
+				rra = 0;
+			tmp = tmp->next;
+		}
+		if (ra > rra)
+			push_front()
 	}
 
 }
