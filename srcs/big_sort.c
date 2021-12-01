@@ -21,20 +21,21 @@ int	find_biggest_ascendant_sublist(t_list *max, t_list **a, t_list **start)
 	int	size;
 	int	next_size;
 	t_list	*tmp;
+	t_list	*save;
 
 	size = 0;
 	next_size = 0;
 	tmp = *a;
 	*start = *a;
+	save = *a;
 	while (tmp && tmp != max)
 	{
 		if (tmp->next && tmp->next->content < tmp->content)
 		{
+			save = tmp;
 			next_size = find_biggest_ascendant_sublist(max, &tmp->next, start);
-			if (next_size < size)
-				tmp = tmp->next;
 		}
-		else if (!tmp->next || tmp == max)
+		if (!tmp->next || tmp == max)
 		{
 			if (next_size > size)
 			{
@@ -44,7 +45,8 @@ int	find_biggest_ascendant_sublist(t_list *max, t_list **a, t_list **start)
 			return (size);
 		}
 		tmp = tmp->next;
-		size++;
+		if (save->content < tmp->content)
+			size++;
 	}
 	return (size);
 }
@@ -63,6 +65,7 @@ void	find_second_sublist_end(t_list *max, t_list **a, t_list **end)
 		tmp = tmp->next;
 	}
 }
+
 void	first_push(t_list **a, t_list **b, t_list *start1, t_list *end2)
 {
 	t_list	*tmp;
@@ -136,7 +139,7 @@ void	big_sort(t_list **a)
 		tmp = tmp->next;
 	find_second_sublist_end(tmp, &max, &sub2_end);
 	printf("start[%d]\n", sub_start->content);
-	printf("start2[%d]\n", sub2_end->content);
+	printf("end2[%d]\n", sub2_end->content);
 	first_push(a, &b, sub_start, sub2_end);
 	//b = push_sublists_b(a, sublstart, sub2_end);
 }
