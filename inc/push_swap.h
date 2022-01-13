@@ -83,6 +83,12 @@ void	rr(t_list **a, t_list **b);
 void	rrr(t_list **a, t_list **b);
 
 /*
+**---------------------- < ORDERS WRAP > -----------------
+*/
+
+void	rotate_a(t_list **a);
+
+/*
 **------------------------ < TOOLS > ---------------------
 */
 

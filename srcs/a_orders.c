@@ -60,3 +60,9 @@ void	rra(t_list **a)
 	tmp->next = NULL;
 	*a = tmp2;
 }
+
+void	rotate_a(t_list **a)
+{
+	printf("ra\n");
+	ra(a);
+}
