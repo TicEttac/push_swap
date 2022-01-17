@@ -11,7 +11,8 @@ SRCS =		main.c			\
 		small_sort.c		\
 		sort_utils.c		\
 		middle_sort.c		\
-		big_sort.c		\
+		big_sort.c			\
+		sort_tools.c		\
 
 OBJS = $(addprefix srcs/, $(SRCS))
 

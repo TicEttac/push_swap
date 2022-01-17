@@ -63,6 +63,6 @@ void	rrb(t_list **b)
 
 void	push_b(t_list **a, t_list **b)
 {
-	printf("pb\n");
+	printf("pb[%d]\n", (*a)->content);
 	pb(a, b);
 }

@@ -92,42 +92,26 @@ int     find_median(t_list **a)
 	
 }
 
-int	lstlen(t_list *list)
-{
-	int		ret;
-
-	ret = 0;
-	while (list)
-	{
-		list = list->next;
-		ret++;
-	}
-	return (ret);
-}
-
-void	push_b(t_list **a, t_list **b, int i)
+void	push_to_b(t_list **a, t_list **b, int i)
 {
 	int		j;
 	int		lenght;
 
 	j = 0;
-	lenght = lstlen(*a);
+	lenght = list_size(*a);
 	if (i < lenght - i)
 		while (j < i)
 		{
-			ra(a);
-			ft_putstr("ra\n");
+			rotate_a(a);
 			j++;
 		}
 	else
 		while (j < i)
 		{
-			rra(a);
-			ft_putstr("rra\n");
+			revrotate_a(a);
 			j++;
 		}
-	pb(a, b);
-	ft_putstr("pb\n");
+	push_b(a, b);
 }
 
 t_list	*build_b(t_list **a)
@@ -151,7 +135,7 @@ t_list	*build_b(t_list **a)
 		if (!tmp)
 			break ;
 		else
-			push_b(a, &ret, i);
+			push_to_b(a, &ret, i);
 	}
 	return (ret);
 }
@@ -166,8 +150,7 @@ void    middle_sort(t_list **a)
 	small_sort(a);
 	while (b)
 	{
-		pa(a, &b);
-		ft_putstr("pa\n");
+		push_b(a, &b);
 	}
 	free_list(b);
 }

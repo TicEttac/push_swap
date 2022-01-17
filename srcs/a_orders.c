@@ -66,3 +66,9 @@ void	rotate_a(t_list **a)
 	printf("ra\n");
 	ra(a);
 }
+
+void	revrotate_a(t_list **a)
+{
+	printf("rra\n");
+	rra(a);
+}

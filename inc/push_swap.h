@@ -62,6 +62,7 @@ void		revert_list(t_list **a, int order);
 int		revert_small(t_list **a);
 int		apply(t_list **a, t_inst **inst, int order, int opt);
 void		apply_inst(t_list **a, t_inst *inst);
+int		list_size(t_list *list);
 
 
 /*
@@ -87,6 +88,8 @@ void	rrr(t_list **a, t_list **b);
 */
 
 void	rotate_a(t_list **a);
+void	revrotate_a(t_list **a);
+void	push_b(t_list **a, t_list **b);
 
 /*
 **------------------------ < TOOLS > ---------------------

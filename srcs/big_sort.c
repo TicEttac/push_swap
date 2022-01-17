@@ -66,32 +66,51 @@ void	first_push(t_list **a, t_list **b, t_list *start1, t_list *end2)
 	tmp = *a;
 	while (tmp && tmp != start1)
 	{
-		pb(a, b);
-		ft_putstr("pb\n");
+		push_b(a, b);
 		tmp = *a;
 	}
 	while (end2->next)
 	{
-		rra(a);
-		pb(a, b);
-		ft_putstr("rra\npb\n");
+		revrotate_a(a);
+		push_b(a, b);
 	}
 }
 
 t_list	*push_sublist_b(t_list **a, t_list **b, t_list *max, t_list *sub2_end)
 {
 	t_list	*tmp;
+	int		ra;
+	int		size;
 
+	(void)sub2_end; //TODO : finish from front (keep max in a and last element) && take from the back
 	tmp = *a;
-	while (tmp->next != NULL && tmp->content != max->content)
+	while ((*a)->next != NULL && tmp->content != max->content)
 	{
-		if (tmp->next->content < tmp->content)
+		tmp = *a;
+		ra = 0;
+		size = list_size(*a);
+		if (tmp->next->content < tmp->content && tmp->content != max->content)
 		{
 			rotate_a(a);
 			push_b(a, b);
 		}
-		tmp = tmp->next;
+		else if (tmp->content != max->content)
+		{
+			while (tmp->next->content > tmp->content && tmp->content != max->content)
+			{
+				ra++;
+				tmp = tmp->next;
+			}
+			if (size - ra > ra)
+				while (ra--)
+					rotate_a(a);
+			else
+				while (size - ra != size)
+					revrotate_a(a);
+			push_b(a, b);
+		}
 	}
+	return (*b);
 }
 
 void	big_sort(t_list **a)
@@ -109,10 +128,8 @@ void	big_sort(t_list **a)
 	while (tmp->next)
 		tmp = tmp->next;
 	find_second_sublist_end(tmp, &max, &sub2_end);
-	printf("start[%d]\n", sub_start->content);
-	printf("end2[%d]\n", sub2_end->content);
 	first_push(a, &b, sub_start, sub2_end);
-	b = push_sublists_b(a, &b, max, sub2_end);
-	print_list(a, 'a');
+	b = push_sublist_b(a, &b, max, sub2_end);
+	print_list(*a, 'a');
 	print_list(b, 'b');
 }
