@@ -1,135 +1,82 @@
 #include "push_swap.h"
 
-t_list	*find_max(t_list **a)
+t_lis	*find_lis(t_list **a)
 {
-	t_list	*tmp;
-	t_list	*max;
+	t_list	*dup;
+	t_lis	*lis;
 
-	tmp = *a;
-	max = (*a);
-	while (tmp)
-	{
-		if (tmp->content > max->content)
-			max = tmp;
-		tmp = tmp->next;
-	}
-	return (max);
+	dup = list_dup(a);
+	if (!dup)
+		return (NULL);
+	rotate_to_min(&dup);
+	lis = build_lis(&dup);
+	free_list(dup);
+	return (lis);
 }
 
-int	find_biggest_ascendant_sublist(t_list *max, t_list **a, t_list **start)
+void	move_b(t_list **a, t_list **b, t_list *element)
 {
-	int	size;
-	int	next_size;
 	t_list	*tmp;
-	t_list	*save;
+	int		i;
+	int		size;
 
+	tmp = *a;
 	size = 0;
-	next_size = -1;
-	tmp = *a;
-	*start = *a;
-	save = *a;
-	while (tmp && tmp != max)
-	{
-		if (next_size == -1 && tmp->next && tmp->next->content < tmp->content)
-			next_size = find_biggest_ascendant_sublist(max, &tmp->next, start);
-		tmp = tmp->next;
-		if (save->content < tmp->content)
-		{
-			save = tmp;
-			size++;
-		}
-	}
-	if (next_size >= size)
-		return (next_size);
-	*start = *a;
-	return (size);
-}
-
-void	find_second_sublist_end(t_list *max, t_list **a, t_list **end)
-{
-	t_list	*tmp;
-
-	find_biggest_ascendant_sublist(max, a, end);
-	tmp = *end;
 	while (tmp->next)
 	{
 		tmp = tmp->next;
-		if (tmp->content > (*end)->content)
-			*end = tmp;
+		size++;
 	}
-}
-
-void	first_push(t_list **a, t_list **b, t_list *start1, t_list *end2)
-{
-	t_list	*tmp;
-
 	tmp = *a;
-	while (tmp && tmp != start1)
+	i = 0;
+	while (tmp && tmp != element)
 	{
-		push_b(a, b);
-		tmp = *a;
+		tmp = tmp->next;
+		i++;
 	}
-	while (end2->next)
-	{
-		revrotate_a(a);
-		push_b(a, b);
-	}
-}
-
-t_list	*push_sublist_b(t_list **a, t_list **b, t_list *max, t_list *sub2_end)
-{
-	t_list	*tmp;
-	int		ra;
-	int		size;
-
-	(void)sub2_end; //TODO : finish from front (keep max in a and last element) && take from the back
-	tmp = *a;
-	while ((*a)->next != NULL && tmp->content != max->content)
-	{
-		tmp = *a;
-		ra = 0;
-		size = list_size(*a);
-		if (tmp->next->content < tmp->content && tmp->content != max->content)
+	if (size - i < i)
+		while (i <= size)
+		{
+			revrotate_a(a);
+			i++;
+		}
+	else
+		while (i)
 		{
 			rotate_a(a);
-			push_b(a, b);
+			i--;
 		}
-		else if (tmp->content != max->content)
-		{
-			while (tmp->next->content > tmp->content && tmp->content != max->content)
-			{
-				ra++;
-				tmp = tmp->next;
-			}
-			if (size - ra > ra)
-				while (ra--)
-					rotate_a(a);
-			else
-				while (size - ra != size)
-					revrotate_a(a);
-			push_b(a, b);
-		}
-	}
-	return (*b);
+	push_b(a, b);
+}
+
+t_list	*big_build_b(t_list **a, t_lis *lis)
+{
+	t_list	*b;
+    int     med;
+
+	b = NULL;
+    med = find_median(a);
+    push_med(a, &b, lis, med, LESS);
+    push_med(a, &b, lis, med, MORE);
+	return (b);
+}
+
+void    merge(t_list **a, t_list **b)
+{
+	while (*b)
+		move_a(a, b, best_push(a, b));
 }
 
 void	big_sort(t_list **a)
 {
-	t_list	*max;
-	t_list	*tmp;
 	t_list	*b;
-	t_list	*sub2_end;
-	t_list	*sub_start;
+	t_lis	*lis;
 
-	b = NULL;
-	tmp = *a;
-	max = find_max(a);
-	find_biggest_ascendant_sublist(max, a, &sub_start);
-	while (tmp->next)
-		tmp = tmp->next;
-	find_second_sublist_end(tmp, &max, &sub2_end);
-	first_push(a, &b, sub_start, sub2_end);
-	b = push_sublist_b(a, &b, max, sub2_end);
-	print_list(*a, 'a');
-	print_list(b, 'b');
+	lis = find_lis(a);
+	b = big_build_b(a, lis);
+	free(lis->content);
+	free(lis);
+    merge(a, &b);
+    rotate_to_min_ex(a);
+	free_list(b);
 }

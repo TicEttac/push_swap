@@ -29,3 +29,25 @@ void	rrr(t_list **a, t_list **b)
 	rra(a);
 	rrb(b);
 }
+
+void    rotate_both(t_list **a, t_list **b)
+{
+    if (!(*b)->next)
+        rotate_a(a);
+    else
+    {
+        printf("rr\n");
+        rr(a, b);
+    }
+}
+
+void    revrotate_both(t_list **a, t_list **b)
+{
+    if (!(*b)->next)
+        revrotate_a(a);
+    else
+    {
+        printf("rrr\n");
+        rrr(a, b);
+    }
+}

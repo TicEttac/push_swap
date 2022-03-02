@@ -60,9 +60,3 @@ void	rrb(t_list **b)
 	tmp->next = NULL;
 	*b = tmp2;
 }
-
-void	push_b(t_list **a, t_list **b)
-{
-	printf("pb[%d]\n", (*a)->content);
-	pb(a, b);
-}

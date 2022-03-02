@@ -80,6 +80,25 @@ t_list	*build_list(t_parse *list)
 	return (ret);
 }
 
+void    check_ordered(t_list **a)
+{
+    int     unordered;
+    t_list  *tmp;
+
+    tmp = *a;
+    unordered = 0;
+    while (tmp->next)
+    {
+        if (tmp->next->content < tmp->content)
+            unordered++;
+        tmp = tmp->next;
+    }
+    if (unordered > 0)
+        return ;
+    free_list(*a);
+    *a = NULL;
+}
+
 t_list	*parser(int ac, char **av)
 {
 	t_parse	*list;
@@ -91,9 +110,15 @@ t_list	*parser(int ac, char **av)
 	list = build_parse(ac, av);
 	if (!list)
 		return (0);
-	if (!check_double(list) || !check_int(list))
+	if (!check_int(list))
 		return (free_parse_error(&list));
 	a = build_list(list);
-	free_parser_list(&list);
-	return (a);
+    if (!check_double(&a))
+    {
+        free_list(a);
+        return (free_parse_error(&list));
+    }
+    check_ordered(&a);
+    free_parser_list(&list);
+    return (a);
 }

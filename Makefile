@@ -4,6 +4,7 @@ NAME = push_swap
 SRCS =		main.c			\
 		a_orders.c			\
 		b_orders.c			\
+		orders_wrap.c		\
 		both_orders.c		\
 		parsing.c			\
 		parsing_check.c		\
@@ -12,7 +13,12 @@ SRCS =		main.c			\
 		sort_utils.c		\
 		middle_sort.c		\
 		big_sort.c			\
+		lis_utils.c			\
+		lis_utils_2.c		\
 		sort_tools.c		\
+		big_build_utils.c	\
+		big_merge.c			\
+		methods.c			\
 
 OBJS = $(addprefix srcs/, $(SRCS))
 

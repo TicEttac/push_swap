@@ -49,26 +49,27 @@ int	apply(t_list **a, t_inst **inst, int order, int opt)
 	return (0);
 }
 
-void	apply_inst(t_list **a, t_inst *inst)
+void	apply_inst(t_inst **inst)
 {
-	static const t_tab	tab[] = {{"ra", SA}, {"rra", RRA}, {"sa", SA},
+	static const t_tab	tab[] = {{"ra", RA}, {"rra", RRA}, {"sa", SA},
 		{"rb", RB},{"rrb", RRB},{"sb", SB}};
 	int			i;
+    t_inst      *tmp;
 
-	(void)a;
-	while (inst)
+    tmp = *inst;
+	while (tmp)
 	{
 		i = 0;
 		while (i < 6)
 		{
-			if (inst->content == tab[i].tag)
+			if (tmp->content == tab[i].tag)
 			{
 				ft_putstr(tab[i].name);
 				write(1, "\n", 1);
 			}
 			i++;
 		}
-		inst = inst->next;
+		tmp = tmp->next;
 	}
 }
 
@@ -89,21 +90,22 @@ int	check_list(t_list **a)
 
 int	bt_small(t_list **a, t_inst **inst, int depth, int order)
 {
+    apply(a, inst, order, 1);
 	if (check_list(a))
 		return (1);
 	if (depth == MAX_DEPTH)
 		return (revert_step(inst, a));
 	if (order == SA)
-		if (apply(a, inst, SA, 1) && (bt_small(a, inst, depth + 1, RA)
-				|| bt_small(a, inst, depth + 1, RRA)))
+		if (bt_small(a, inst, depth + 1, RA)
+				|| bt_small(a, inst, depth + 1, RRA))
 			return (1);
 	if (order == RA)
-		if (apply(a, inst, RA, 1) && (bt_small(a, inst, depth + 1, SA)
-				|| bt_small(a, inst, depth + 1, RA)))
+		if (bt_small(a, inst, depth + 1, SA)
+				|| bt_small(a, inst, depth + 1, RA))
 			return (1);
 	if (order == RRA)
-		if (apply(a, inst, RRA, 1) && (bt_small(a, inst, depth + 1, SA)
-				|| bt_small(a, inst, depth + 1, RRA)))
+		if (bt_small(a, inst, depth + 1, SA)
+				|| bt_small(a, inst, depth + 1, RRA))
 			return (1);
 	return (revert_step(inst, a));
 }
@@ -115,14 +117,12 @@ t_inst	*launch_small(t_list **a)
 	inst = NULL;
 	if (bt_small(a, &inst, 0, SA))
 		return (inst);
-	free_list((t_list *)inst);
-	inst = NULL;
-	if (bt_small(a, &inst, 0, RA))
+	else if (bt_small(a, &inst, 0, RA))
+		return (inst);
+	else if (bt_small(a, &inst, 0, RRA))
 		return (inst);
 	free_list((t_list *)inst);
 	inst = NULL;
-	if (bt_small(a, &inst, 0, RRA))
-		return(inst);
 	return (NULL);
 }
 
@@ -133,7 +133,7 @@ int	small_sort(t_list **a)
 	inst = launch_small(a);
 	if (!inst)
 		return (0);
-	apply_inst(a, inst);
+	apply_inst(&inst);
 	free_list((t_list *)inst);
 	return (1);
 }

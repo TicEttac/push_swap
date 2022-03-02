@@ -12,18 +12,18 @@
 
 #include "push_swap.h"
 
-int	check_double(t_parse *list)
+int	check_double(t_list **list)
 {
-	t_parse	*tmp;
-	t_parse	*tmp2;
+	t_list	*tmp;
+	t_list	*tmp2;
 
-	tmp = list;
+	tmp = *list;
 	while (tmp->next)
 	{
 		tmp2 = tmp->next;
 		while (tmp2)
 		{
-			if (!ft_strcmp(tmp->content, tmp2->content))
+			if (tmp->content == tmp2->content)
 				return (0);
 			tmp2 = tmp2->next;
 		}

@@ -47,7 +47,7 @@ void	print_list(t_list *list, char name)
 		printf("%d\n", tmp->content);
 		tmp = tmp->next;
 	}
-	printf("%d\n", tmp->content);
+	printf("%d\n\n", tmp->content);
 }
 
 void	*print_error(void)
@@ -58,16 +58,26 @@ void	*print_error(void)
 
 int	main(int ac, char **av)
 {
+    int     size;
+    t_list  *tmp;
 	t_list	*a;
 
+    size = 0;
 	a = parser(ac, av);
 	if (!a)
 		return (0);
-	big_sort(&a);
-	//revert_small(&a);
-	//small_sort(&a);
-	//middle_sort(&a);
-	//print_list(a, 'A');
+    tmp = a;
+    while (tmp)
+    {
+        size++;
+        tmp = tmp->next;
+    }
+    if (size <= 5)
+        small_sort(&a);
+    //if (size <= 5)
+       // middle_sort(&a);
+    else
+	    big_sort(&a);
 	free_list(a);
 	return (0);
 }

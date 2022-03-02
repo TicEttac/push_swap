@@ -60,7 +60,7 @@ int	revert_small(t_list **a)
 	inst = launch_revert(a);
 	if (!inst)
 		return (0);
-	apply_inst(a, inst);
+	apply_inst(&inst);
 	free_list((t_list *)inst);
 	return (1);
 }

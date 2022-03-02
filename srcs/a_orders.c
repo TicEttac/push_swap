@@ -61,14 +61,8 @@ void	rra(t_list **a)
 	*a = tmp2;
 }
 
-void	rotate_a(t_list **a)
+void    push_a(t_list **a, t_list **b)
 {
-	printf("ra\n");
-	ra(a);
-}
-
-void	revrotate_a(t_list **a)
-{
-	printf("rra\n");
-	rra(a);
+    printf("pa\n");
+    pa(a, b);
 }
